@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+    />
+    <script type="text/javascript" src="inc/TimeCircles.js"></script>
+    <link rel="stylesheet" href="inc/TimeCircles.css" />
+  </head>
+  <body>
+    <div class="container" text-align="center">
+      <!-- <hr>
+            <h2>Waktu Ujian</h2>
+            <div id="CountDownTimer" data-timer="900" ></div>
+            <button class="btn btn-success startTimer">Start Timer</button>
+            <button class="btn btn-danger stopTimer">Stop Timer</button>
+            <hr> -->
+
+      <h2>Set Waktu Ujian (menit)</h2>
+      <select id="timerMinutes" class="form-control">
+        <option value="1">1 Menit</option>
+        <option value="30">30 Menit</option>
+        <option value="45">45 Menit</option>
+        <option value="60">60 Menit</option>
+        <option value="90">90 Menit</option>
+        <option value="120">120 Menit</option>
+      </select>
+      <hr />
+      <button class="btn btn-success startTimer">Start Timer</button>
+      <button class="btn btn-danger stopTimer">Stop Timer</button>
+      <button class="btn btn-warning resetTimer">Reset Timer</button>
+
+      <span>&nbsp;</span>
+      <h1 id="pesanwaktu"></h1>
+      <div id="CountDownTimer" data-timer="900"></div>
+      <hr />
+      <!-- <h2>Waktu Ujian</h2> -->
+
+      <!-- <hr />
+      <h1>Timer with Bell Sound</h1>
+      <input
+        type="number"
+        id="duration"
+        placeholder="Enter duration in seconds"
+      />
+
+      <button id="startTimer">Start Timer</button>
+      <p id="message"></p> -->
+
+      <audio id="bellSound" src="buzzer.mp3" preload="auto"></audio>
+    </div>
+    <script>
+      //   document
+      //     .getElementById("startTimer")
+      //     .addEventListener("click", function () {
+      //       const duration = parseInt(document.getElementById("duration").value);
+      //       const message = document.getElementById("message");
+      //       const bellSound = document.getElementById("bellSound");
+
+      //       if (isNaN(duration) || duration <= 0) {
+      //         message.textContent = "Please enter a valid duration.";
+      //         return;
+      //       }
+
+      //       message.textContent = `Timer started for ${duration} seconds.`;
+      //       setTimeout(() => {
+      //         bellSound.play();
+      //         message.textContent = "Time is up!";
+      //       }, duration * 1000);
+      //     });
+
+      let timer; // Variable to hold the timer instance
+      //   var selectedMinutes = $("#timerMinutes").val();
+      //   var timerValue = selectedMinutes * 60; // Convert minutes to seconds
+      //   timer = selectedMinutes * 60;
+      const suarabel = document.getElementById("bellSound");
+
+      const isipesan = document.getElementById("pesanwaktu");
+
+      //   $(".setTimer").click(function () {
+      //     var selectedMinutes = $("#timerMinutes").val();
+      //     var timerValue = selectedMinutes * 60; // Convert minutes to seconds
+      //     $("#CountDownTimer").attr("data-timer", timerValue);
+      //     $("#CountDownTimer")
+      //       .TimeCircles({
+      //         time: {
+      //           Days: { show: false },
+      //         },
+      //       })
+      //       .end({ count: timerValue });
+      //   });
+
+      $(".startTimer").click(function () {
+        var selectedMinutes = $("#timerMinutes").val();
+        var timerValue = selectedMinutes * 60; // Convert minutes to seconds
+        var selectedText = $("#timerMinutes option:selected").text();
+
+        suarabel.play(); //mulai bel
+        isipesan.textContent = `Waktu Ujian selama ${selectedText} .`;
+
+        $("#CountDownTimer").attr("data-timer", timerValue);
+        $("#CountDownTimer")
+          .TimeCircles({
+            time: {
+              Days: { show: false },
+            },
+          })
+          .start();
+        $("#CountDownTimer").TimeCircles().end({
+          count: timerValue,
+        });
+
+        setTimeout(() => {
+          bellSound.play();
+          isipesan.textContent = "Waktu Habis!";
+          $("#CountDownTimer").TimeCircles().stop(); // Stop the timer
+          $("#CountDownTimer").TimeCircles().destroy();
+        }, timerValue * 1000);
+      });
+
+      $(".stopTimer").click(function () {
+        $("#CountDownTimer").TimeCircles().stop(); // Stop the timer
+      });
+
+      $(".resetTimer").click(function () {
+        $("#CountDownTimer").TimeCircles().stop(); // Stop the timer
+        $("#CountDownTimer").TimeCircles().destroy(); // Destroy the timer instance
+        updateTime();
+      });
+
+      var updateTime = function () {
+        var selectedMinutes = $("#timerMinutes").val();
+        var timerValue = selectedMinutes * 60; // Convert minutes to seconds
+        var selectedText = $("#timerMinutes option:selected").text();
+
+        suarabel.play(); //mulai bel
+        isipesan.textContent = `Waktu Ujian selama ${selectedText} .`;
+        // alert(selectedMinutes + "   #### " + timerValue);
+        $("#CountDownTimer")
+          .data("timer", timerValue)
+          .TimeCircles({
+            time: {
+              Days: { show: false },
+            },
+          })
+          .start();
+        setTimeout(() => {
+          bellSound.play();
+          isipesan.textContent = "Waktu Habis!";
+          $("#CountDownTimer").TimeCircles().stop(); // Stop the timer
+          $("#CountDownTimer").TimeCircles().destroy();
+        }, timerValue * 1000);
+      };
+    </script>
+  </body>
+</html>
