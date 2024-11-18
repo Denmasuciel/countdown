@@ -23,11 +23,18 @@
 
       <h2>Set Waktu Ujian (menit)</h2>
       <select id="timerMinutes" class="form-control">
-        <option value="1">1 Menit</option>
+        <!-- <option value="1">1 Menit</option> -->
+        <option value="3">3 Menit</option>
+        <option value="7">7 Menit</option>
+        <!-- <option value="20">20 Menit</option>
+        <option value="22">22 Menit</option> -->
         <option value="30">30 Menit</option>
         <option value="45">45 Menit</option>
         <option value="60">60 Menit</option>
         <option value="90">90 Menit</option>
+        <option value="110">110 Menit</option>
+        <option value="112">112 Menit</option>
+        <option value="113">113 Menit</option>
         <option value="120">120 Menit</option>
         <option value="135">135 Menit</option>
       </select>
@@ -100,6 +107,7 @@
         var selectedMinutes = $("#timerMinutes").val();
         var timerValue = selectedMinutes * 60; // Convert minutes to seconds
         var selectedText = $("#timerMinutes option:selected").text();
+        var nilai = parseInt(timerValue);
 
         suarabel.play(); //mulai bel
         isipesan.textContent = `Waktu Ujian selama ${selectedText} .`;
@@ -116,8 +124,14 @@
           count: timerValue,
         });
 
+        if (nilai == 6600 || nilai == 6720 || nilai == 6780) {
+          setTimeout(() => {
+            suarabel.play();
+          }, 90 * 60 * 1000);
+        }
+
         setTimeout(() => {
-          bellSound.play();
+          suarabel.play();
           isipesan.textContent = "Waktu Habis!";
           $("#CountDownTimer").TimeCircles().stop(); // Stop the timer
           $("#CountDownTimer").TimeCircles().destroy();
@@ -150,8 +164,15 @@
             },
           })
           .start();
+
+          if (nilai == 6600 || nilai == 6720 || nilai == 6780) {
+          setTimeout(() => {
+            suarabel.play();
+          }, 90 * 60 * 1000);
+        }
+
         setTimeout(() => {
-          bellSound.play();
+          suarabel.play();
           isipesan.textContent = "Waktu Habis!";
           $("#CountDownTimer").TimeCircles().stop(); // Stop the timer
           $("#CountDownTimer").TimeCircles().destroy();
